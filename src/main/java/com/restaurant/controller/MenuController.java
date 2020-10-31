@@ -18,7 +18,7 @@ import java.util.List;
  */
 
 @RestController
-@RequestMapping("/restaurant")
+@RequestMapping("/api/restaurant")
 @Api(value="onlinerestaurant", description="Operations to restaurant in Online")
 public class MenuController {
 

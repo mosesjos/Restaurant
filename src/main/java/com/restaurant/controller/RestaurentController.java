@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.*;
  * @author MYM
  */
 @RestController
-@RequestMapping("/restaurant")
+@RequestMapping("/api/restaurant")
 @Api(value="onlinerestaurant", description="Operations to restaurant in Online")
 public class RestaurentController {
 
