@@ -28,16 +28,16 @@ public class RestaurantService {
     public ResponseEntity<?> restaurantRegistration(Restaurant restaurant) {
 
         if (checkOperationalTiming(restaurant)) {
-            Restaurant exisitngName =restaurantRepository.findByNameIgnoreCase(restaurant.getName());
-            if (exisitngName != null) {
+            Restaurant exisitngName = restaurantRepository.findByNameIgnoreCase(restaurant.getName());
+            if (exisitngName != null && restaurant.getId() == 0) {
                 return new ResponseEntity("Restaurant Name already exist",
-                        HttpStatus.EXPECTATION_FAILED);
+                        HttpStatus.BAD_REQUEST);
             }
             restaurant = restaurantRepository.save(restaurant);
-            return new ResponseEntity(restaurant, HttpStatus.OK);
+            return new ResponseEntity(restaurant, HttpStatus.CREATED);
         } else {
             return new ResponseEntity("Invalid/Not Available Start and End Operational Time",
-                    HttpStatus.EXPECTATION_FAILED);
+                    HttpStatus.BAD_REQUEST);
         }
     }
 
@@ -62,13 +62,26 @@ public class RestaurantService {
     }
 
     public ResponseEntity<?> getRestaurantDetailsByName(String resturantName) {
-        return new ResponseEntity(
-                restaurantRepository.findByNameStartsWithIgnoreCase(resturantName), HttpStatus.OK);
+        Set<Restaurant> restaurants = restaurantRepository.findByNameStartsWithIgnoreCase(resturantName);
+
+        if (CollectionUtils.isEmpty(restaurants)) {
+            return new ResponseEntity(null, HttpStatus.NO_CONTENT);
+        }
+
+        return new ResponseEntity(restaurants
+                , HttpStatus.OK);
     }
 
     public ResponseEntity<?> getRestaurantDetailsByAddress(String resturantName) {
-        return new ResponseEntity(
-                restaurantRepository.findByAddressContainingIgnoreCase(resturantName), HttpStatus.OK);
+
+        Set<Restaurant> restaurants = restaurantRepository.
+                findByAddressContainingIgnoreCase(resturantName);
+
+        if (CollectionUtils.isEmpty(restaurants)) {
+            return new ResponseEntity(null, HttpStatus.NO_CONTENT);
+        }
+        return new ResponseEntity(restaurants
+                , HttpStatus.OK);
     }
 
     public Restaurant getRestaurantDetails(String restaurantId) {

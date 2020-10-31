@@ -28,9 +28,23 @@ public class RestaurentController {
      * @param restaurant
      * @return
      */
+    @ApiOperation(value = "Update Exisitng Restaurant Details",response = Restaurant.class)
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Successfully  Restaurant Details updated"),
+            @ApiResponse(code = 401, message = "You are not authorized to view the resource"),
+            @ApiResponse(code = 403, message = "Accessing the resource you were trying to reach is forbidden"),
+            @ApiResponse(code = 404, message = "The resource you were trying to reach is not found")
+    }
+    )
+    @RequestMapping(path = "/{restaurantId}", method = RequestMethod.PUT)
+    public ResponseEntity<?> updateRestaurant(
+            @RequestBody Restaurant restaurant) {
+        return restaurantService.restaurantRegistration(restaurant);
+    }
+
     @ApiOperation(value = "Registration of new Uer",response = Restaurant.class)
     @ApiResponses(value = {
-            @ApiResponse(code = 200, message = "Successfully  Registered"),
+            @ApiResponse(code = 201, message = "Successfully  Registered"),
             @ApiResponse(code = 401, message = "You are not authorized to view the resource"),
             @ApiResponse(code = 403, message = "Accessing the resource you were trying to reach is forbidden"),
             @ApiResponse(code = 404, message = "The resource you were trying to reach is not found")

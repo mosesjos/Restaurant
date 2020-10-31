@@ -7,6 +7,7 @@ import lombok.Setter;
 import org.hibernate.validator.constraints.NotEmpty;
 
 import javax.persistence.*;
+import javax.validation.constraints.Digits;
 import java.io.Serializable;
 import java.sql.Timestamp;
 import java.util.Set;
@@ -37,8 +38,10 @@ public class Restaurant implements Serializable {
 
     private Double longitude;
 
+    @Digits(integer=2 , fraction=2)
     private float startTime;
 
+    @Digits(integer=2 , fraction=2)
     private float endTime;
 
     private int overallRating;
