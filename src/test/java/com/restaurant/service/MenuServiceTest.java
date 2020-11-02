@@ -4,6 +4,7 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.restaurant.model.MenuDetails;
 import com.restaurant.model.Restaurant;
+import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -14,6 +15,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
@@ -34,6 +36,7 @@ public class MenuServiceTest {
     @Autowired
     private RestaurantService restaurantService;
 
+    @Transactional (propagation= Propagation.NESTED)
     @Before
     public void init() throws Exception {
 
@@ -50,6 +53,10 @@ public class MenuServiceTest {
         Restaurant restaurant = new ObjectMapper().readValue(request, Restaurant.class);
         restaurantService.restaurantRegistration(restaurant);
 
+        addMenu();
+    }
+
+    public void addMenu() throws Exception{
         String menuRequest = "\n" +
                 "        [{  \n" +
                 "            \"menuName\": \"tea\"\n" +
@@ -68,7 +75,6 @@ public class MenuServiceTest {
                 new TypeReference<List<MenuDetails>>() {
                 });
         menuService.addMenuDetails(menus, "1");
-
     }
 
     @Test
@@ -85,7 +91,8 @@ public class MenuServiceTest {
     }
 
     @Test
-    public void giveRating() {
+    public void giveRating() throws Exception{
+        addMenu();
         ResponseEntity response = menuService.addMenuRating("1", "3", 4);
         Assert.assertTrue((boolean) response.getBody() == true);
     }

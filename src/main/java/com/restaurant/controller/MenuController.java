@@ -1,6 +1,7 @@
 package com.restaurant.controller;
 
 import com.restaurant.model.MenuDetails;
+import com.restaurant.model.Restaurant;
 import com.restaurant.service.MenuService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -31,7 +32,7 @@ public class MenuController {
      * @param menuDetails List of menu to be added
      * @return
      */
-    @ApiOperation(value = "Add menu to restaurant",response = ResponseEntity.class)
+    @ApiOperation(value = "Add menu to restaurant",response = MenuDetails.class, responseContainer = "List")
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Successfully  Menu added"),
             @ApiResponse(code = 401, message = "You are not authorized to view the resource"),
@@ -51,7 +52,7 @@ public class MenuController {
      * @param restaurantId estaurant backend Identifier
      * @return list of Menu details
      */
-    @ApiOperation(value = "Retrieve Menu details by restaurant",response = ResponseEntity.class)
+    @ApiOperation(value = "Retrieve Menu details by restaurant",response = MenuDetails.class, responseContainer = "List")
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Successfully  get restaurant"),
             @ApiResponse(code = 401, message = "You are not authorized to view the resource"),
@@ -73,7 +74,7 @@ public class MenuController {
      * @param rating rating givning to the menu
      * @return
      */
-    @ApiOperation(value = "Add Rating to menu",response = ResponseEntity.class)
+    @ApiOperation(value = "Add Rating to menu",response = MenuDetails.class)
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Successfully  Rating added to menu"),
             @ApiResponse(code = 401, message = "You are not authorized to view the resource"),
@@ -102,7 +103,7 @@ public class MenuController {
      * @param rate rating value between 1 to 5
      * @return
      */
-    @ApiOperation(value = "Retrieve menu details by rating",response = ResponseEntity.class)
+    @ApiOperation(value = "Retrieve menu details by rating",response = MenuDetails.class, responseContainer = "List")
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Successfully  get menu"),
             @ApiResponse(code = 401, message = "You are not authorized to view the resource"),

@@ -1,5 +1,6 @@
 package com.restaurant.controller;
 
+import com.restaurant.model.MenuDetails;
 import com.restaurant.model.Restaurant;
 import com.restaurant.service.RestaurantService;
 import io.swagger.annotations.Api;
@@ -10,6 +11,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 /**
  * @author MYM
@@ -64,7 +67,7 @@ public class RestaurentController {
      * @param rating       rating value between 1 to 5
      * @return
      */
-    @ApiOperation(value = "Rating the restaurant",response = ResponseEntity.class)
+    @ApiOperation(value = "Rating the restaurant",response = Restaurant.class, responseContainer = "List")
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Successfully  Rated"),
             @ApiResponse(code = 401, message = "You are not authorized to view the resource"),
@@ -90,7 +93,7 @@ public class RestaurentController {
      * @param restaurantname restaurant name to query
      * @return List of restaurant
      */
-    @ApiOperation(value = "Retrieve Restaurant details by name",response = ResponseEntity.class)
+    @ApiOperation(value = "Retrieve Restaurant details by name",response = Restaurant.class, responseContainer = "List")
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Successfully  get restaurant"),
             @ApiResponse(code = 401, message = "You are not authorized to view the resource"),
@@ -111,7 +114,7 @@ public class RestaurentController {
      * @param menuname menu name
      * @return list of restaurant
      */
-    @ApiOperation(value = "Retrieve Restaurant details by menu name",response = Iterable.class)
+    @ApiOperation(value = "Retrieve Restaurant details by menu name",response = MenuDetails.class)
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Successfully  get restaurant"),
             @ApiResponse(code = 401, message = "You are not authorized to view the resource"),
@@ -131,7 +134,7 @@ public class RestaurentController {
      * @param address
      * @return list of restaurant
      */
-    @ApiOperation(value = "Retrieve Restaurant details by address",response = Iterable.class)
+    @ApiOperation(value = "Retrieve Restaurant details by address",response = Restaurant.class, responseContainer = "List")
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Successfully  get restaurant"),
             @ApiResponse(code = 401, message = "You are not authorized to view the resource"),
@@ -151,7 +154,7 @@ public class RestaurentController {
      * @param rate rate between 1 to 5
      * @return list of restaurant
      */
-    @ApiOperation(value = "Retrieve Restaurant details by Restaurant rate",response = Iterable.class)
+    @ApiOperation(value = "Retrieve Restaurant details by Restaurant rate",response = Restaurant.class, responseContainer = "List")
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Successfully  get restaurant"),
             @ApiResponse(code = 401, message = "You are not authorized to view the resource"),
@@ -176,7 +179,7 @@ public class RestaurentController {
      * @param time
      * @return
      */
-    @ApiOperation(value = "Retrieve Restaurant details by Operation time",response = ResponseEntity.class)
+    @ApiOperation(value = "Retrieve Restaurant details by Operation time",response = Restaurant.class, responseContainer = "List")
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Successfully  get restaurant"),
             @ApiResponse(code = 401, message = "You are not authorized to view the resource"),

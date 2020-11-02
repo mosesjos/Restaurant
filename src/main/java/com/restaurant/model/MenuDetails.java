@@ -2,6 +2,7 @@ package com.restaurant.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import org.hibernate.validator.constraints.NotEmpty;
 
@@ -21,12 +22,15 @@ public class MenuDetails implements Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
+    @ApiModelProperty(notes = "Menu Name", example = "Coffee", required = true)
     @NotEmpty
     @Column(name="menuName")
     private String menuName;
 
+    @ApiModelProperty(notes = "Menu Rating between 1 to 5", example = "1")
     private int menuRating;
 
+    @ApiModelProperty(notes = "Menu price", example = "10")
     private long price;
 
     private boolean isAvailable = true;

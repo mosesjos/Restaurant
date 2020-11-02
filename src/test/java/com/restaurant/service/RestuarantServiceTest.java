@@ -89,6 +89,7 @@ public class RestuarantServiceTest {
         Assert.assertTrue(417 ==responseEntity.getStatusCode().value());
     }
 
+    @javax.transaction.Transactional
     @Test
     public void testRestaurantResgistrationNameExist() throws Exception{
 
@@ -136,6 +137,8 @@ public class RestuarantServiceTest {
         List<MenuDetails> response = (List<MenuDetails>)responseEntity.getBody();
         Assert.assertTrue(200 ==responseEntity.getStatusCode().value());
         Assert.assertTrue(1 == response.get(0).getId());
+        Assert.assertTrue(2 == response.get(1).getId());
+        Assert.assertTrue(3 == response.get(2).getId());
     }
 
 
