@@ -12,6 +12,9 @@ Useful URLs:
 Spring Swagger UI - http://localhost:8099/swagger-ui.html
 Spring API Doc - http://localhost:8099/v2/api-docs?group=public-api
 
+Please use the below value for the Authorization header.
+Basic dXNlcjpwYXNzd29yZA==
+
 Step to setup local  environment
 
 1. Checkout the project from git hub
