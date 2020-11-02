@@ -10,9 +10,12 @@ import java.util.Set;
  */
 public interface MenuDetailsRepository extends CrudRepository<MenuDetails, Long> {
 
-    Set<MenuDetails> findByMenuNameIsStartingWithIgnoreCase(String name);
+    Set<MenuDetails> findByMenuNameIsStartingWithIgnoreCaseAndAvailable(String name, boolean isAvailable);
 
-    Set<MenuDetails> findByMenuNameLikeIgnoreCaseAndAndMenuRatingEquals(String name, int rating);
+    Set<MenuDetails> findByMenuNameLikeIgnoreCaseAndAndMenuRatingEqualsAndAvailable(String name,
+                                                                                    int rating, boolean isAvailable);
+
+    Set<MenuDetails> findByRestaurantId(Long restaurantId);
 
 
 }

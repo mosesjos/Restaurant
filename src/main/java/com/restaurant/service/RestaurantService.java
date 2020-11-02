@@ -28,12 +28,18 @@ public class RestaurantService {
     public ResponseEntity<?> restaurantRegistration(Restaurant restaurant) {
 
         if (checkOperationalTiming(restaurant)) {
-            Restaurant exisitngName = restaurantRepository.findByNameIgnoreCase(restaurant.getName());
+            Restaurant exisitngName = restaurantRepository.
+                    findByNameIgnoreCaseAndActiveResturant(restaurant.getName(), true);
             if (exisitngName != null && restaurant.getId() == 0) {
                 return new ResponseEntity("Restaurant Name already exist",
                         HttpStatus.BAD_REQUEST);
             }
             restaurant = restaurantRepository.save(restaurant);
+
+            if(!restaurant.isActiveResturant()){
+                menuService.updateMenuToUnavailable(restaurant);
+            }
+
             return new ResponseEntity(restaurant, HttpStatus.CREATED);
         } else {
             return new ResponseEntity("Invalid/Not Available Start and End Operational Time",
@@ -62,7 +68,8 @@ public class RestaurantService {
     }
 
     public ResponseEntity<?> getRestaurantDetailsByName(String resturantName) {
-        Set<Restaurant> restaurants = restaurantRepository.findByNameStartsWithIgnoreCase(resturantName);
+        Set<Restaurant> restaurants = restaurantRepository.
+                findByNameStartsWithIgnoreCaseAndActiveResturant(resturantName, true);
 
         if (CollectionUtils.isEmpty(restaurants)) {
             return new ResponseEntity(null, HttpStatus.NO_CONTENT);
@@ -75,7 +82,7 @@ public class RestaurantService {
     public ResponseEntity<?> getRestaurantDetailsByAddress(String resturantName) {
 
         Set<Restaurant> restaurants = restaurantRepository.
-                findByAddressContainingIgnoreCase(resturantName);
+                findByAddressContainingIgnoreCaseAndActiveResturant(resturantName, true);
 
         if (CollectionUtils.isEmpty(restaurants)) {
             return new ResponseEntity(null, HttpStatus.NO_CONTENT);
@@ -85,7 +92,7 @@ public class RestaurantService {
     }
 
     public Restaurant getRestaurantDetails(String restaurantId) {
-        return restaurantRepository.findById(Long.valueOf(restaurantId));
+        return restaurantRepository.findByIdAndActiveResturant(Long.valueOf(restaurantId), true);
     }
 
     public ResponseEntity<?> getRestaurantByMenuName(String menuName) {
@@ -96,7 +103,8 @@ public class RestaurantService {
 
     public ResponseEntity<?> getRestaurantByRating(int rate) {
 
-        Set<Restaurant> restaurants = restaurantRepository.findByOverallRatingEquals(rate);
+        Set<Restaurant> restaurants = restaurantRepository.
+                findByOverallRatingEqualsAndActiveResturant(rate, true);
 
         if (!CollectionUtils.isEmpty(restaurants)) {
             return new ResponseEntity(restaurants, HttpStatus.OK);
@@ -108,7 +116,7 @@ public class RestaurantService {
     public ResponseEntity<?> getRestaurantByOperationaltime(float time) {
 
         Set<Restaurant> restaurants = restaurantRepository.
-                findByStartTimeLessThanAndEndTimeGreaterThan(time, time);
+                findByStartTimeLessThanAndEndTimeGreaterThanAndActiveResturant(time, time, true);
 
         if (!CollectionUtils.isEmpty(restaurants)) {
             return new ResponseEntity(restaurants, HttpStatus.OK);
@@ -117,10 +125,5 @@ public class RestaurantService {
         }
     }
 
-    public ResponseEntity<?> getRestaurantByGeoLocation(Double longitude, Double latitude) {
-
-        //restaurantRepository.findByLongitudeBetweenOrLatitudeBetween(longitude);
-        return null;
-    }
 
 }

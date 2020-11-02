@@ -12,17 +12,18 @@ import java.util.Set;
  */
 public interface RestaurantRepository extends CrudRepository<Restaurant, Long> {
 
-    Restaurant findById(Long restaurantId);
+    Restaurant findByIdAndActiveResturant(Long restaurantId, boolean isActive);
 
-    Set<Restaurant> findByNameStartsWithIgnoreCase(String name);
+    Set<Restaurant> findByNameStartsWithIgnoreCaseAndActiveResturant(String name, boolean isActive);
 
-    Restaurant findByNameIgnoreCase(String name);
+    Restaurant findByNameIgnoreCaseAndActiveResturant(String name, boolean isActive);
 
-    Set<Restaurant> findByAddressContainingIgnoreCase(String address);
+    Set<Restaurant> findByAddressContainingIgnoreCaseAndActiveResturant(String address,  boolean isActive);
 
-    Set<Restaurant> findByOverallRatingEquals(int rating);
+    Set<Restaurant> findByOverallRatingEqualsAndActiveResturant(int rating,   boolean isActive);
 
-    Set<Restaurant> findByStartTimeLessThanAndEndTimeGreaterThan(float startTime, float endTime);
+    Set<Restaurant> findByStartTimeLessThanAndEndTimeGreaterThanAndActiveResturant(float startTime,
+                                                                                         float endTime,  boolean isActive);
 
     Set<Restaurant> findByLongitudeBetweenAndLatitudeBetween(Double longitueStart, Double longitueEnd,
                                                              Double latitudeStart, Double latitudeEnd);

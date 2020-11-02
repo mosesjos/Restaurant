@@ -35,7 +35,6 @@ public class MenuService {
             return new ResponseEntity("Invalid Restaurant", HttpStatus.NO_CONTENT);
         }
 
-
         menuDetails.forEach(menu -> {
             menu.setRestaurant(restaurant);
             if (restaurant != null &&
@@ -56,7 +55,6 @@ public class MenuService {
                 }
             }
         });
-
 
         return new ResponseEntity(menuDetails, HttpStatus.OK);
     }
@@ -93,15 +91,27 @@ public class MenuService {
     }
 
     public Set<MenuDetails> getMenuByName(String name) {
-        return menuDetailsRepository.findByMenuNameIsStartingWithIgnoreCase(name);
+        return menuDetailsRepository.findByMenuNameIsStartingWithIgnoreCaseAndAvailable(name, true);
     }
 
     public ResponseEntity<?> getRestaurantByMenuRate(String menuName, int rate) {
 
         Set<MenuDetails> menuDetails =
-                menuDetailsRepository.findByMenuNameLikeIgnoreCaseAndAndMenuRatingEquals(
-                        menuName, rate);
+                menuDetailsRepository.findByMenuNameLikeIgnoreCaseAndAndMenuRatingEqualsAndAvailable(
+                        menuName, rate, true);
+
 
         return CommonUtils.getRestaurantFromMenu(menuDetails);
+    }
+
+    public void updateMenuToUnavailable(Restaurant restaurant) {
+
+        Set<MenuDetails> menuDetails = menuDetailsRepository.findByRestaurantId(
+                restaurant.getId());
+        menuDetails.stream().forEach(menu -> {
+            menu.setAvailable(false);
+            menuDetailsRepository.save(menu);
+
+        });
     }
 }

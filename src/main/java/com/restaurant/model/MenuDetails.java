@@ -33,7 +33,7 @@ public class MenuDetails implements Serializable {
     @ApiModelProperty(notes = "Menu price", example = "10")
     private long price;
 
-    private boolean isAvailable = true;
+    private boolean available = true;
 
     @JsonIgnore
     @ManyToOne

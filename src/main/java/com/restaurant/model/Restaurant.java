@@ -44,7 +44,7 @@ public class Restaurant implements Serializable {
 
     @ApiModelProperty(notes = "Restaurant contact Number",
             example = "1234567890", required = false)
-    @Digits(integer=10, fraction = 0)
+    @Digits(integer = 10, fraction = 0)
     private Long contactName;
 
     @ApiModelProperty(notes = "Restaurant latitude",
@@ -57,21 +57,24 @@ public class Restaurant implements Serializable {
 
     @ApiModelProperty(notes = "Restaurant operational Start time - 24 hours",
             example = "9.30", required = true)
-    @Digits(integer=2 , fraction=2)
+    @Digits(integer = 2, fraction = 2)
     private float startTime;
 
     @ApiModelProperty(notes = "Restaurant operational end time - 24 hours",
             example = "18.30", required = true)
-    @Digits(integer=2 , fraction=2)
+    @Digits(integer = 2, fraction = 2)
     private float endTime;
 
     @ApiModelProperty(notes = "Restaurant Rating between  1 to 5",
             example = "1", required = false)
     private int overallRating;
 
-    @JsonIgnore
-    @OneToMany(mappedBy = "restaurant")
-    private Set<MenuDetails> menus;
+    @ApiModelProperty(notes = "Restaurant is acive or not",
+            example = "1", required = false)
+    private boolean activeResturant = true;
 
+    @JsonIgnore
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "restaurant")
+    private Set<MenuDetails> menus;
 
 }
